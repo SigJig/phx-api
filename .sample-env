@@ -1,0 +1,13 @@
+
+# This is manually set in here so that the correct NODE_ENV is loaded into the docker containers
+NODE_ENV=
+
+HTTP_PORT=
+
+DB_ARMA_CLIENT=mysql2
+DB_ARMA_CONNECT=engine://user:password@host:port/database
+
+DB_API_CLIENT=mysql2
+DB_API_CONNECT=engine://user:password@host:port/database
+
+JWT_KEY=

@@ -1,0 +1,34 @@
+version: '3.7'
+
+services:
+  api:
+    restart: always
+    build:
+      context: .
+      dockerfile: misc/docker/api/Dockerfile.prod
+    ports:
+      - 3000:3000
+    depends_on:
+      - db_api
+  db_api:
+    restart: always
+    image: mysql
+    env_file:
+      database/api/api.env
+    ports:
+      - 3307:3306
+  migrations_handler:
+    depends_on:
+      - db_api
+    image: node:10-alpine
+    #build:
+    #  context: .
+    #  dockerfile: misc/docker/database/Dockerfile
+    volumes:
+      - type: bind
+        source: ./database
+        target: /usr/src/dbhandler
+      - type: bind
+        source: ./lib
+        target: /usr/src/lib
+    working_dir: /usr/src/dbhandler

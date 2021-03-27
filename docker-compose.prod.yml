@@ -1,0 +1,11 @@
+version: '3.7'
+
+services: 
+  api:
+    ports:
+      - 80:3000
+    env_file:
+      .env.production
+  migrations_handler:
+    env_file:
+      .env.production

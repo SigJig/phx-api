@@ -1,0 +1,10 @@
+FROM node:10-alpine
+
+WORKDIR /usr/src/api
+
+RUN apk --no-cache add --virtual builds-deps build-base python
+RUN yarn add nodemon
+
+VOLUME [ "/usr/src/lib", "/usr/src/api" ]
+
+CMD "node_modules/nodemon/bin/nodemon.js" --legacy-watch --exec "yarn run build-serve" --ignore node_modules/ --ignore dist/ --watch src

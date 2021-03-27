@@ -1,0 +1,25 @@
+FROM node:10-alpine
+
+ENV DIR /usr/src
+
+RUN mkdir -p ${DIR}/api && \
+    mkdir ${DIR}/database && \
+    mkdir ${DIR}/lib
+ 
+WORKDIR ${DIR}/api
+
+
+# Install python as we need it to compile native dependencies with no prebuilt binaries
+RUN apk update && \
+    apk --no-cache add --virtual builds-deps build-base python bash
+
+COPY ./api/package.json package.json
+COPY ./database/package.json ${DIR}/database/package.json
+COPY ./misc/scripts/wait-for-it.sh ${DIR}/wait-for-it.sh
+
+RUN chmod +x ../wait-for-it.sh
+
+RUN yarn --cwd ../database install --ignore-scripts
+RUN yarn install --ignore-scripts
+
+VOLUME [ "${DIR}/api", "${DIR}/lib", "${DIR}/database" ]

@@ -1,0 +1,31 @@
+version: '3.7'
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: misc/docker/api/Dockerfile.dev
+    env_file:
+      .env.development
+    volumes:
+      - type: bind
+        source: ./api
+        target: /usr/src/api
+      - type: bind
+        source: ./lib
+        target: /usr/src/lib
+    depends_on:
+      - db_arma
+      - db_api
+  db_arma:
+    image: mysql
+    ports:
+      - 3308:3306
+    env_file:
+      database/arma/arma.env
+  migrations_handler:
+    depends_on: 
+      - db_arma
+      - db_api
+    env_file:
+      .env.development

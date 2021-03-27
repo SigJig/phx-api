@@ -1,0 +1,44 @@
+version: '3.7'
+
+services:
+  api_test:
+    build:
+      context: .
+      dockerfile: misc/docker/api/Dockerfile.test
+    depends_on:
+      - db_arma_test
+      - db_api_test
+    environment:
+      HTTP_PORT: 3000
+      NODE_ENV: test
+      JWT_KEY: dwalkjd1982j421md089ajdw0912kd0921k9e129d0k
+
+      DB_API_CONNECT: mysql://root:admin@db_api_test:3306/phoenix_api
+      DB_API_CLIENT: mysql2
+      
+      DB_ARMA_CONNECT: mysql://root:admin@db_arma_test:3306/altislife_v2
+      DB_ARMA_CLIENT: mysql2
+    command:
+      ../wait-for-it.sh -t 90 db_api_test:3306 -- ../wait-for-it.sh db_arma_test:3306 -t 90 -- yarn run build-test
+    volumes:
+      - ./api:/usr/src/api
+      - ./lib:/usr/src/lib
+      - ./database:/usr/src/database
+    links:
+      - db_arma_test
+      - db_api_test
+
+  db_arma_test:
+    image: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: admin
+      MYSQL_DATABASE: altislife_v2
+    ports:
+      - 3310:3306
+  db_api_test:
+    image: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: admin
+      MYSQL_DATABASE: phoenix_api
+    ports:
+      - 3309:3306
