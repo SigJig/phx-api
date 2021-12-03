@@ -1,7 +1,9 @@
 
 # PhoenixRP API
 
-This repository contains the source code for the official PhoenixRP API.
+This repository contains the source code for the proposed version 2 of the API of the now shut down gaming community PhoenixRP.
+It was never finished, and also might be a bit of a mess since it was the first large TypeScript project I did, but I am quite happy with it.
+
 The API is a RESTful API, built with TypeScript, Express and Knex.
 
 ### Setup
@@ -10,7 +12,7 @@ Setting up this project is a fairly simple task.
 You can use docker-compose for both development and production, or you can set up the project manually.
 
 Before installing anything, we need to clone the repository:
-```git clone -b v2 https://github.com/KevinXuzio/PhoenixRP-API.git```
+```git clone -b v2 https://github.com/SigJig/phx-api.git```
 
 Once the repository has been cloned, we need to set up some environment variables:
 * Copy the contents of `./database/api/api.sample-env` into a new file, `api.env`, in the same directory. Fill in the missing details.
